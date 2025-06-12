@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Carona Universitária</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos (mantidos da sua versão anterior) */
+        .login-main {
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 40px 20px; text-align: center; background-color: #222a35;
+            min-height: calc(100vh - 70px); color: #ecf0f1;
+        }
+        .login-form {
+            background-color: #2c3e50; padding: 30px; border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 100%; max-width: 400px;
+        }
+        .login-form h2 { margin-bottom: 20px; color: #fff; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #bbb; }
+        .form-group input {
+            width: 100%; padding: 12px; border: 1px solid #444; border-radius: 4px;
+            background-color: #333; color: #fff; font-size: 1em;
+        }
+        .form-group input:focus {
+            outline: none; border-color: #008080; box-shadow: 0 0 0 2px rgba(0, 128, 128, 0.5);
+        }
+        .login-button {
+            background-color: #008080; color: #fff; border: none; padding: 12px 20px;
+            font-size: 1.1em; font-weight: bold; border-radius: 5px; cursor: pointer;
+            transition: background-color 0.3s ease; width: 100%;
+        }
+        .login-button:hover { background-color: #006666; }
+        .extra-links { margin-top: 20px; }
+        .extra-links a { color: #00aaff; text-decoration: none; margin: 0 10px; }
+        .extra-links a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header>  
+        <div class="container">
+             <a href="index.html" class="voltar-btn" aria-label="Voltar para início">←</a>
+            <div class="logo-area">
+                <img src="LogoVamosJuntos (2).png" alt="Logo VamosJuntos" class="logo-img">
+                <h1><a href="index.html" style="color: #fff; text-decoration: none;">VamosJuntos</a></h1>
+            </div>
+            <nav class="desktop-nav">
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="login.html" class="active">Login</a></li>
+                    <li><a href="cadastro.html">Cadastro</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                <a href="perfil.html" class="profile-icon" aria-label="Ver perfil"><i class="fas fa-user-circle"></i></a>
+                <button class="menu-toggle" aria-label="Abrir menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <nav class="mobile-nav">
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="login.html" class="active">Login</a></li>
+                <li><a href="cadastro.html">Cadastro</a></li>
+                <li><a href="perfil.html">Meu Perfil</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="login-main">
+        <div class="login-form">
+            <h2>Acessar sua Conta</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="cpfLogin">CPF</label>
+                    <input type="tel" id="cpfLogin" name="cpfLogin" placeholder="000.000.000-00" required>
+                </div>
+                <div class="form-group">
+                    <label for="passwordLogin">Senha</label>
+                    <input type="password" id="passwordLogin" name="passwordLogin" required>
+                </div>
+                <button type="submit" class="login-button">Entrar</button>
+            </form>
+            <div class="extra-links">
+                <a href="#">Esqueci minha senha</a>
+                <p style="margin-top: 15px;">Não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script> <script>
+        // Função para formatar CPF no login (opcional, mas melhora UX)
+        const cpfLoginInput = document.getElementById('cpfLogin');
+        if (cpfLoginInput) {
+            cpfLoginInput.addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, '');
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                e.target.value = value.slice(0, 14);
+            });
+        }
+
+       
+
+        // Função para configurar o perfil de Admin (chamar via console: setupAdminProfile() )
+        function setupAdminProfile() {
+            const adminCPF = "00000000000"; // 11 zeros
+            const adminPassword = "admin123"; // Senha do admin
+
+            localStorage.setItem('userFullName', "Administrador do Sistema");
+            localStorage.setItem('userCPF', adminCPF);
+            localStorage.setItem('userEmail', "admin@vamosjuntos.com");
+            localStorage.setItem('userUniversity', "Universidade Central de Admin");
+            localStorage.setItem('userCourse', "Gestão de Plataformas Digitais");
+            localStorage.setItem('userRole', "Condutor");
+            localStorage.setItem('userPassword', adminPassword); 
+
+            localStorage.removeItem('isLoggedIn'); 
+
+            alert('Perfil de Administrador configurado no localStorage!\nCPF para login: ' + formatCPFForDisplay(adminCPF) + '\nSenha: ' + adminPassword + '\n\nAgora você pode usar esses dados na página de login.');
+            console.log('Perfil de Admin configurado. CPF:', adminCPF, 'Senha:', adminPassword);
+        }
+
+        function formatCPFForDisplay(cpf) { // Função auxiliar para o alerta do setupAdmin
+            if (!cpf || cpf.length !== 11) return cpf;
+            return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+        }
+         // Para facilitar, você pode adicionar um botão temporário para chamar essa função
+        // ou chamá-la diretamente pelo console do navegador.
+        // Exemplo de botão (coloque em algum lugar no body do login.html, antes de </main>, se quiser):
+        // <button onclick="setupAdminProfile()" style="padding:10px; margin:20px; background:orange; color:black; border:none; border-radius:5px; cursor:pointer;">Configurar Perfil Admin (TESTE)</button>
+        
+    </script>
+</body>
+</html>
